@@ -1,0 +1,142 @@
+#include <iostream>
+using namespace std;
+
+int MAX_STUDENTS = 100; // Define a maximum limit
+
+// Function to display student details
+void displayStudents(string students[][3], int numStudents) {
+    if (numStudents == 0) {
+        cout << "\nNo students to display!\n";
+        return;
+    }
+
+    cout << "\nStudent Details:\n";
+    cout << "--------------------------------------\n";
+    cout << "Name\t\tRoll No\t\tAttendance\n";
+    cout << "--------------------------------------\n";
+
+    for (int i = 0; i < numStudents; i++) {
+        cout << students[i][0] << "\t\t" << students[i][1] << "\t\t" << students[i][2] << endl;
+    }
+}
+
+// Function to add a new student (only if max limit is not reached)
+void addUser(string students[][3], int& numStudents) {
+    if (numStudents >= MAX_STUDENTS) {
+        cout << "Cannot add more students! Maximum limit reached.\n";
+        return;
+    }
+
+    cout << "\nEnter details for the new student:\n";
+    cout << "Name: ";
+    cin >> students[numStudents][0];
+
+    cout << "Roll No: ";
+    cin >> students[numStudents][1];
+
+    cout << "Attendance (Present/Absent): ";
+    cin >> students[numStudents][2];
+
+    numStudents++;
+
+    cout << "Student added successfully!\n";
+}
+
+// Function to search for a student by roll number
+void searchStudent(string students[][3], int numStudents) {
+    if (numStudents == 0) {
+        cout << "\nNo students available to search!\n";
+        return;
+    }
+
+    string rollNo;
+    cout << "\nEnter Roll No to search: ";
+    cin >> rollNo;
+
+    bool found = false;
+    for (int i = 0; i < numStudents; i++) {
+        if (students[i][1] == rollNo) { // Compare roll numbers
+            cout << "\nStudent Found:\n";
+            cout << "--------------------------------------\n";
+            cout << "Name: " << students[i][0] << "\n";
+            cout << "Roll No: " << students[i][1] << "\n";
+            cout << "Attendance: " << students[i][2] << "\n";
+            cout << "--------------------------------------\n";
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        cout << "\nStudent with Roll No " << rollNo << " not found!\n";
+    }
+}
+
+// Function to mark attendance by roll number
+void markAttendance(string students[][3], int numStudents) {
+    if (numStudents == 0) {
+        cout << "\nNo students available to mark attendance!\n";
+        return;
+    }
+
+    string rollNo;
+    cout << "\nEnter Roll No to mark attendance: ";
+    cin >> rollNo;
+
+    bool found = false;
+    for (int i = 0; i < numStudents; i++) {
+        if (students[i][1] == rollNo) { // Compare roll numbers
+            cout << "Enter new attendance status (Present/Absent): ";
+            cin >> students[i][2]; // Update attendance
+            cout << "Attendance updated successfully!\n";
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        cout << "\nStudent with Roll No " << rollNo << " not found!\n";
+    }
+}
+
+int main() {
+    int numStudents = 0; // Start with 0 students
+    string students[MAX_STUDENTS][3]; // Fixed-size 2D array
+
+    while (true) {
+        // Display menu
+        cout << "\nChoose an option:\n";
+        cout << "1. Add Student\n";
+        cout << "2. Display Student\n";
+        cout << "3. Search Student by Roll No\n";
+        cout << "4. Mark Attendance\n";
+        cout << "5. Exit\n";
+        cout << "Enter your choice: ";
+
+        int choice;
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                addUser(students, numStudents);
+                break;
+            case 2:
+                displayStudents(students, numStudents);
+                break;
+            case 3:
+                searchStudent(students, numStudents);
+                break;
+            case 4:
+                markAttendance(students, numStudents);
+                break;
+            case 5:
+                cout << "Exiting program...\n";
+                return 0;
+            default:
+                cout << "Invalid choice! Please enter 1, 2, 3, 4, or 5.\n";
+        }
+    }
+
+    return 0;
+}
+
